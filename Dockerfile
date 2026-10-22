@@ -1,12 +1,14 @@
-ARG PROTOC_VER="30.1"
-ARG GRPCGW_VER="2.26.3"
+ARG PROTOC_VER="36.2"
+# 2.27.4: from 2.27.5 protoc-gen-openapiv2 leaves refs given in openapiv2
+# options dangling (grpc-gateway #6123).
+ARG GRPCGW_VER="2.27.4"
 
-FROM golang:1.25.3-bookworm AS build-env
+FROM golang:1.27.3-bookworm AS build-env
 ARG GRPCGW_VER
-RUN go install golang.org/x/tools/cmd/goimports@v0.38.0
-RUN go install github.com/go-swagger/go-swagger/cmd/swagger@v0.33.1
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.6
-RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1
+RUN go install golang.org/x/tools/cmd/goimports@v0.52.0
+RUN go install github.com/go-swagger/go-swagger/cmd/swagger@v0.36.6
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.12
+RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.2
 RUN go install \
 	github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v${GRPCGW_VER} \
 	github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@v${GRPCGW_VER}
@@ -31,7 +33,7 @@ RUN unzip -q protoc-linux.zip
 
 FROM debian:bookworm-20251020-slim AS go-extract
 ARG TARGETARCH
-ADD https://go.dev/dl/go1.25.3.linux-${TARGETARCH}.tar.gz /opt/go.tar.gz
+ADD https://go.dev/dl/go1.27.3.linux-${TARGETARCH}.tar.gz /opt/go.tar.gz
 RUN cd /opt && tar xzf go.tar.gz && rm -f go.tar.gz
 
 FROM debian:bookworm-20251020-slim
