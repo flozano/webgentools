@@ -1,6 +1,6 @@
 ARG PROTOC_VER="36.2"
 # 2.27.4: from 2.27.5 protoc-gen-openapiv2 leaves refs given in openapiv2
-# options dangling (grpc-gateway #6123).
+# options dangling: https://github.com/grpc-ecosystem/grpc-gateway/issues/7559
 ARG GRPCGW_VER="2.27.4"
 
 FROM golang:1.27.3-bookworm AS build-env
