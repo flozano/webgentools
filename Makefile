@@ -1,4 +1,4 @@
-NAME=koron/webgentools
+NAME=ghcr.io/flozano/webgentools
 TAG?=$(shell git describe --candidate=0)
 
 build:
